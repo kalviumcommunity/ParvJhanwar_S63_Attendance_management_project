@@ -4,15 +4,19 @@ package com.school;
  * Represents a student with basic attendance tracking.
  */
 public class Student {
-    private final int id;
+    private static int nextStudentIdCounter = 1;
+    private final int studentId;
     private final String name;
     private final int[] attendance; // 1 for present, 0 for absent, -1 for not marked
 
     /**
      * Create a student with an attendance array for given number of sessions.
      */
-    public Student(int id, String name, int sessions) {
-        this.id = id;
+    /**
+     * Create a student with a name and attendance array for given number of sessions.
+     */
+    public Student(String name, int sessions) {
+        this.studentId = nextStudentIdCounter++;
         this.name = name;
         this.attendance = new int[sessions];
         for (int i = 0; i < sessions; i++) {
@@ -20,7 +24,7 @@ public class Student {
         }
     }
 
-    public int getId() { return id; }
+    public int getStudentId() { return studentId; }
     public String getName() { return name; }
     public int[] getAttendance() { return attendance; }
 
@@ -55,7 +59,7 @@ public class Student {
     @Override
     public String toString() {
         return "Student{" +
-                "id=" + id +
+                "studentId=" + studentId +
                 ", name='" + name + '\'' +
                 ", attendance%=" + String.format("%.1f", getAttendancePercentage()) +
                 '}';
