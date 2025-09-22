@@ -1,5 +1,8 @@
 package com.school;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
     public static void main(String[] args) {
         System.out.println("Welcome to Attendance Management System!");
@@ -44,5 +47,22 @@ public class Main {
         System.out.println("\nCourse IDs:");
         System.out.println("Course 1: C" + course1.getCourseId() + " - " + course1.getCourseName());
         System.out.println("Course 2: C" + course2.getCourseId() + " - " + course2.getCourseName());
+
+        // Create attendance log using ArrayList
+        System.out.println("\n=== Attendance Records ===");
+        ArrayList<AttendanceRecord> attendanceLog = new ArrayList<>();
+
+        // Create attendance records (including one with invalid status for testing)
+        attendanceLog.add(new AttendanceRecord(students[0].getStudentId(), course1.getCourseId(), "Present"));
+        attendanceLog.add(new AttendanceRecord(students[1].getStudentId(), course1.getCourseId(), "Absent"));
+        attendanceLog.add(new AttendanceRecord(students[2].getStudentId(), course2.getCourseId(), "Present"));
+        attendanceLog.add(new AttendanceRecord(students[3].getStudentId(), course2.getCourseId(), "InvalidStatus")); // Test validation
+        attendanceLog.add(new AttendanceRecord(students[0].getStudentId(), course2.getCourseId(), "absent")); // Test case-insensitive
+
+        // Display all attendance records
+        System.out.println("\nAttendance Log:");
+        for (AttendanceRecord record : attendanceLog) {
+            record.displayRecord();
+        }
     }
 }
