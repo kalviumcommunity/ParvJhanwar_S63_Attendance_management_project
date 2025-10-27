@@ -3,29 +3,26 @@ package com.school;
 /**
  * Represents a student with basic attendance tracking.
  */
-public class Student {
-    private static int nextStudentIdCounter = 1;
-    private final int studentId;
-    private final String name;
+public class Student extends Person {
+    private String gradeLevel;
     private final int[] attendance; // 1 for present, 0 for absent, -1 for not marked
 
-    /**
-     * Create a student with an attendance array for given number of sessions.
-     */
     /**
      * Create a student with a name and attendance array for given number of sessions.
      */
     public Student(String name, int sessions) {
-        this.studentId = nextStudentIdCounter++;
-        this.name = name;
+        super(name);
+        this.gradeLevel = "A";
         this.attendance = new int[sessions];
         for (int i = 0; i < sessions; i++) {
             attendance[i] = -1; // not marked
         }
     }
 
-    public int getStudentId() { return studentId; }
-    public String getName() { return name; }
+    public int getStudentId() { return id; }
+    public String getStudentName() { return name; }
+    public String getGradeLevel() { return gradeLevel; }
+    public void setGradeLevel(String gradeLevel) { this.gradeLevel = gradeLevel; }
     public int[] getAttendance() { return attendance; }
 
     /**
@@ -59,9 +56,16 @@ public class Student {
     @Override
     public String toString() {
         return "Student{" +
-                "studentId=" + studentId +
+                "id=" + id +
                 ", name='" + name + '\'' +
+                ", gradeLevel='" + gradeLevel + '\'' +
                 ", attendance%=" + String.format("%.1f", getAttendancePercentage()) +
                 '}';
+    }
+
+    @Override
+    public void displayDetails() {
+        super.displayDetails();
+        System.out.println("Role: Student, Grade Level: " + gradeLevel);
     }
 }
