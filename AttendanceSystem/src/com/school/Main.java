@@ -64,5 +64,38 @@ public class Main {
         for (AttendanceRecord record : attendanceLog) {
             record.displayRecord();
         }
+
+        // Demonstrate Inheritance Hierarchy (Part 5)
+        System.out.println("\n=== Inheritance Hierarchy - Person and Subclasses ===");
+        
+        // Create a Teacher
+        Teacher teacher1 = new Teacher("Mr. Smith", "Mathematics");
+        
+        // Create a Staff member
+        Staff staff1 = new Staff("Mrs. Johnson", "Administrator");
+        
+        // Create another Staff member
+        Staff staff2 = new Staff("Mr. Brown", "Maintenance");
+        
+        // Display details of all types of persons
+        System.out.println("\nPerson Details:");
+        System.out.println("--- Student ---");
+        students[0].displayDetails();
+        
+        System.out.println("\n--- Teacher ---");
+        teacher1.displayDetails();
+        
+        System.out.println("\n--- Staff Members ---");
+        staff1.displayDetails();
+        System.out.println();
+        staff2.displayDetails();
+        
+        // Demonstrate polymorphism using Person reference
+        System.out.println("\n--- Polymorphic Display (Person references) ---");
+        Person[] persons = {students[0], teacher1, staff1};
+        for (Person p : persons) {
+            p.displayDetails();
+            System.out.println();
+        }
     }
 }
