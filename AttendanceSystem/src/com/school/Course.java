@@ -3,7 +3,7 @@ package com.school;
 /**
  * Represents a course holding a fixed-size roster of students.
  */
-public class Course {
+public class Course implements Storable {
     private static int nextCourseIdCounter = 101;
     private final int courseId;
     private final String courseName;
@@ -51,5 +51,11 @@ public class Course {
                 ", enrolled=" + count +
                 "/" + students.length +
                 '}';
+    }
+
+    @Override
+    public String toDataString() {
+        // Format: courseId,courseName
+        return courseId + "," + courseName;
     }
 }

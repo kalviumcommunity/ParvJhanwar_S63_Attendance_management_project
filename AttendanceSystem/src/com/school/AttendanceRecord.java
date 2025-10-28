@@ -3,7 +3,7 @@ package com.school;
 /**
  * Represents an attendance record for a student in a course.
  */
-public class AttendanceRecord {
+public class AttendanceRecord implements Storable {
     private final int studentId;
     private final int courseId;
     private String status;
@@ -59,5 +59,11 @@ public class AttendanceRecord {
         System.out.println("Attendance Record - Student ID: " + studentId + 
                           ", Course ID: C" + courseId + 
                           ", Status: " + status);
+    }
+
+    @Override
+    public String toDataString() {
+        // Format: studentId,courseId,status
+        return studentId + "," + courseId + "," + status;
     }
 }

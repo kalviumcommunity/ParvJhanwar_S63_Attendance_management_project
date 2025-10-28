@@ -3,7 +3,7 @@ package com.school;
 /**
  * Represents a student with basic attendance tracking.
  */
-public class Student extends Person {
+public class Student extends Person implements Storable {
     private String gradeLevel;
     private final int[] attendance; // 1 for present, 0 for absent, -1 for not marked
 
@@ -67,5 +67,11 @@ public class Student extends Person {
     public void displayDetails() {
         super.displayDetails();
         System.out.println("Role: Student, Grade Level: " + gradeLevel);
+    }
+
+    @Override
+    public String toDataString() {
+        // Format: id,name,gradeLevel
+        return id + "," + name + "," + gradeLevel;
     }
 }
