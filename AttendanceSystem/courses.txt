@@ -1,0 +1,2 @@
+101,Intro to CS
+102,Discrete Math

@@ -65,6 +65,21 @@ public class Main {
             record.displayRecord();
         }
 
+        // Persist data to files using FileStorageService
+        ArrayList<Student> studentsList = new ArrayList<>();
+        for (Student s : students) studentsList.add(s);
+
+        ArrayList<Course> coursesList = new ArrayList<>();
+        coursesList.add(course1);
+        coursesList.add(course2);
+
+        FileStorageService storage = new FileStorageService();
+        storage.saveData(studentsList, "students.txt");
+        storage.saveData(coursesList, "courses.txt");
+        storage.saveData(attendanceLog, "attendance_log.txt");
+
+        System.out.println("\nData saved: students.txt, courses.txt, attendance_log.txt");
+
         // Demonstrate Inheritance Hierarchy (Part 5)
         System.out.println("\n=== Inheritance Hierarchy - Person and Subclasses ===");
         
