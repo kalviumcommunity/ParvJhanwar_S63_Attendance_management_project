@@ -4,44 +4,44 @@ package com.school;
  * Represents an attendance record for a student in a course.
  */
 public class AttendanceRecord implements Storable {
-    private final int studentId;
-    private final int courseId;
+    private final Student student;
+    private final Course course;
     private String status;
 
     /**
      * Create an attendance record with validation for status.
-     * @param studentId the ID of the student
-     * @param courseId the ID of the course
+     * @param student the Student object
+     * @param course the Course object
      * @param status the attendance status ("Present" or "Absent")
      */
-    public AttendanceRecord(int studentId, int courseId, String status) {
-        this.studentId = studentId;
-        this.courseId = courseId;
+    public AttendanceRecord(Student student, Course course, String status) {
+        this.student = student;
+        this.course = course;
         
         // Validate status (case-insensitive)
         if (status.equalsIgnoreCase("Present") || status.equalsIgnoreCase("Absent")) {
             this.status = status;
         } else {
-            System.out.println("Warning: Invalid status '" + status + "' for student " + studentId + 
-                             " in course " + courseId + ". Setting status to 'Invalid'.");
+            System.out.println("Warning: Invalid status '" + status + "' for student " + student.getId() + 
+                             " in course " + course.getCourseId() + ". Setting status to 'Invalid'.");
             this.status = "Invalid";
         }
     }
 
     /**
-     * Get the student ID.
-     * @return the student ID
+     * Get the student object.
+     * @return the Student
      */
-    public int getStudentId() {
-        return studentId;
+    public Student getStudent() {
+        return student;
     }
 
     /**
-     * Get the course ID.
-     * @return the course ID
+     * Get the course object.
+     * @return the Course
      */
-    public int getCourseId() {
-        return courseId;
+    public Course getCourse() {
+        return course;
     }
 
     /**
@@ -56,14 +56,16 @@ public class AttendanceRecord implements Storable {
      * Display the attendance record information.
      */
     public void displayRecord() {
-        System.out.println("Attendance Record - Student ID: " + studentId + 
-                          ", Course ID: C" + courseId + 
+        System.out.println("Attendance Record - Student: " + student.getName() + 
+                          " (ID: " + student.getId() + ")" +
+                          ", Course: " + course.getCourseName() + 
+                          " (C" + course.getCourseId() + ")" +
                           ", Status: " + status);
     }
 
     @Override
     public String toDataString() {
         // Format: studentId,courseId,status
-        return studentId + "," + courseId + "," + status;
+        return student.getId() + "," + course.getCourseId() + "," + status;
     }
 }
