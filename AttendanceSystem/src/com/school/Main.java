@@ -82,22 +82,31 @@ public class Main {
         System.out.println("Course 1: C" + course1.getCourseId() + " - " + course1.getCourseName());
         System.out.println("Course 2: C" + course2.getCourseId() + " - " + course2.getCourseName());
 
-        // Create attendance log using ArrayList
-        System.out.println("\n=== Attendance Records ===");
-        ArrayList<AttendanceRecord> attendanceLog = new ArrayList<>();
+        // Create storage + attendance service
+        FileStorageService storage = new FileStorageService();
+        AttendanceService attendanceService = new AttendanceService(storage);
 
-        // Create attendance records using Student and Course objects
-        attendanceLog.add(new AttendanceRecord(students[0], course1, "Present"));
-        attendanceLog.add(new AttendanceRecord(students[1], course1, "Absent"));
-        attendanceLog.add(new AttendanceRecord(students[2], course2, "Present"));
-        attendanceLog.add(new AttendanceRecord(students[3], course2, "InvalidStatus")); // Test validation
-        attendanceLog.add(new AttendanceRecord(students[0], course2, "absent")); // Test case-insensitive
+        // Prepare lists of all students and courses for lookup-based overloads
+        ArrayList<Student> allStudents = new ArrayList<>();
+        for (Student s : students) allStudents.add(s);
+        ArrayList<Course> allCourses = new ArrayList<>();
+        allCourses.add(course1);
+        allCourses.add(course2);
 
-        // Display all attendance records
-        System.out.println("\nAttendance Log:");
-        for (AttendanceRecord record : attendanceLog) {
-            record.displayRecord();
-        }
+        // Mark attendance using object-based overload
+        attendanceService.markAttendance(students[0], course1, "Present");
+        attendanceService.markAttendance(students[1], course1, "Absent");
+        attendanceService.markAttendance(students[2], course2, "Present");
+        attendanceService.markAttendance(students[3], course2, "InvalidStatus"); // Test validation
+        attendanceService.markAttendance(students[0], course2, "absent"); // Test case-insensitive
+
+        // Mark attendance using ID-based overload (lookup)
+        attendanceService.markAttendance(students[4].getStudentId(), course1.getCourseId(), "Present", allStudents, allCourses);
+
+        // Display attendance logs using overloaded display methods
+        attendanceService.displayAttendanceLog();
+        attendanceService.displayAttendanceLog(students[0]);
+        attendanceService.displayAttendanceLog(course2);
 
         // Persist data to files using FileStorageService
         // Filter students from schoolPeople list
@@ -112,10 +121,9 @@ public class Main {
         coursesList.add(course1);
         coursesList.add(course2);
 
-        FileStorageService storage = new FileStorageService();
         storage.saveData(studentsList, "students.txt");
         storage.saveData(coursesList, "courses.txt");
-        storage.saveData(attendanceLog, "attendance_log.txt");
+        attendanceService.saveAttendanceData();
 
         System.out.println("\nData saved: students.txt, courses.txt, attendance_log.txt");
     }
