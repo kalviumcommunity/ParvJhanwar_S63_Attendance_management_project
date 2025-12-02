@@ -9,10 +9,12 @@ import java.util.List;
 public class AttendanceService {
     private final List<AttendanceRecord> attendanceLog;
     private final FileStorageService storageService;
+    private final RegistrationService registrationService;
 
-    public AttendanceService(FileStorageService storageService) {
+    public AttendanceService(FileStorageService storageService, RegistrationService registrationService) {
         this.attendanceLog = new ArrayList<>();
         this.storageService = storageService;
+        this.registrationService = registrationService;
     }
 
     /**
@@ -24,12 +26,11 @@ public class AttendanceService {
     }
 
     /**
-     * Mark attendance by IDs. Looks up objects in provided lists then delegates.
+     * Mark attendance by IDs. Looks up objects using registrationService then delegates.
      */
-    public void markAttendance(int studentId, int courseId, String status,
-                               List<Student> allStudents, List<Course> allCourses) {
-        Student s = findStudentById(studentId, allStudents);
-        Course c = findCourseById(courseId, allCourses);
+    public void markAttendance(int studentId, int courseId, String status) {
+        Student s = registrationService.findStudentById(studentId);
+        Course c = registrationService.findCourseById(courseId);
         if (s == null) {
             System.err.println("Student with ID " + studentId + " not found. Skipping record.");
             return;
@@ -39,22 +40,6 @@ public class AttendanceService {
             return;
         }
         markAttendance(s, c, status);
-    }
-
-    private Student findStudentById(int id, List<Student> allStudents) {
-        if (allStudents == null) return null;
-        for (Student s : allStudents) {
-            if (s.getStudentId() == id) return s;
-        }
-        return null;
-    }
-
-    private Course findCourseById(int id, List<Course> allCourses) {
-        if (allCourses == null) return null;
-        for (Course c : allCourses) {
-            if (c.getCourseId() == id) return c;
-        }
-        return null;
     }
 
     public void displayAttendanceLog() {
