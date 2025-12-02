@@ -3,7 +3,7 @@ package com.school;
 /**
  * Represents a staff member in the school system.
  */
-public class Staff extends Person {
+public class Staff extends Person implements Storable {
     private String staffRole;
 
     /**
@@ -45,5 +45,11 @@ public class Staff extends Person {
                 ", name='" + name + '\'' +
                 ", staffRole='" + staffRole + '\'' +
                 '}';
+    }
+
+    @Override
+    public String toDataString() {
+        // Format: id,name,staffRole
+        return id + "," + name + "," + staffRole;
     }
 }
