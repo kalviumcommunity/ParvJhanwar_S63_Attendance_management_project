@@ -52,10 +52,38 @@ public class RegistrationService {
 
     /**
      * Create and register a new course.
+     * @param courseName the name of the course
+     * @param capacity the maximum number of students allowed in the course
+     * @return the created course
+     */
+    public Course createCourse(String courseName, int capacity) {
+        Course course = new Course(courseName, capacity);
+        courses.add(course);
+        return course;
+    }
+
+    /**
+     * Create and register a new course.
      * @param course the course to create
      */
     public void createCourse(Course course) {
         courses.add(course);
+    }
+
+    /**
+     * Enroll a student in a course.
+     * @param student the student to enroll
+     * @param course the course to enroll the student in
+     * @return true if enrollment was successful, false otherwise
+     */
+    public boolean enrollStudentInCourse(Student student, Course course) {
+        boolean success = course.addStudent(student);
+        if (success) {
+            System.out.println("Successfully enrolled " + student.getName() + " (ID: " + student.getId() + ") in " + course.getCourseName() + " (C" + course.getCourseId() + ")");
+        } else {
+            System.out.println("Failed to enroll " + student.getName() + " (ID: " + student.getId() + ") in " + course.getCourseName() + " (C" + course.getCourseId() + ") - Course is at full capacity (" + course.getCapacity() + " students)");
+        }
+        return success;
     }
 
     /**
