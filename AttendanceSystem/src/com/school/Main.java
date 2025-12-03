@@ -46,13 +46,9 @@ public class Main {
         student2.markAttendance(0, false);
         student3.markAttendance(0, true);
 
-        // Create courses
-        Course course1 = new Course("Intro to CS", 5);
-        Course course2 = new Course("Discrete Math", 5);
-
-        // Register courses
-        registrationService.createCourse(course1);
-        registrationService.createCourse(course2);
+        // Create courses with capacity
+        Course course1 = registrationService.createCourse("Intro to CS", 5);
+        Course course2 = registrationService.createCourse("Discrete Math", 3);
 
         // Create and register teachers
         Teacher teacher1 = new Teacher("Mr. Smith", "Mathematics");
@@ -67,21 +63,34 @@ public class Main {
         // Display school directory using polymorphism
         displaySchoolDirectory(registrationService);
 
-        // Enroll students
-        for (Student s : registrationService.getStudents()) {
-            course1.enrollStudent(s);
-        }
-        course2.enrollStudent(student1);
-        course2.enrollStudent(student3);
-        course2.enrollStudent(student4);
+        // Enroll students using registrationService
+        System.out.println("\n=== Enrolling Students in Courses ===");
+        registrationService.enrollStudentInCourse(student1, course1);
+        registrationService.enrollStudentInCourse(student2, course1);
+        registrationService.enrollStudentInCourse(student3, course1);
+        registrationService.enrollStudentInCourse(student4, course1);
+        registrationService.enrollStudentInCourse(student5, course1);
+        
+        registrationService.enrollStudentInCourse(student1, course2);
+        registrationService.enrollStudentInCourse(student3, course2);
+        registrationService.enrollStudentInCourse(student4, course2);
+        // This enrollment should fail due to capacity (course2 has capacity 3)
+        registrationService.enrollStudentInCourse(student5, course2);
 
-        // Print rosters
-        System.out.println("\nCourse Rosters:");
+        // Display course details
+        System.out.println("\n=== Course Details ===");
+        course1.displayDetails();
+        System.out.println();
+        course2.displayDetails();
+
+        // Print rosters (for backward compatibility)
+        System.out.println("\n=== Course Rosters ===");
         System.out.println(course1.roster());
         System.out.println(course2.roster());
 
         // Show auto-generated IDs
-        System.out.println("\nStudent IDs:");
+        System.out.println("\n=== Auto-Generated IDs ===");
+        System.out.println("Student IDs:");
         for (Student s : registrationService.getStudents()) {
             System.out.println(s.getStudentId() + ": " + s.getName());
         }
@@ -90,6 +99,7 @@ public class Main {
         System.out.println("Course 2: C" + course2.getCourseId() + " - " + course2.getCourseName());
 
         // Mark attendance using object-based overload
+        System.out.println("\n=== Marking Attendance ===");
         attendanceService.markAttendance(student1, course1, "Present");
         attendanceService.markAttendance(student2, course1, "Absent");
         attendanceService.markAttendance(student3, course2, "Present");
